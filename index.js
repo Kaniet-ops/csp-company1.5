@@ -1,26 +1,35 @@
+  let slider = document.querySelector('.row')
+  let swiper
+  function mobileSlider(slider) {
+    if(window.innerWidth < 768 && slider.dataset.mobile === 'false') {
+      swiper = new Swiper(slider, {
+        slidesPerView: 1,
+        spaceBetween: 10,
+        loop: true,
+        slideClass: 'column',
+        pagination: {
+        	el: '.swiper-pagination',
+        	clickable: true,
+        },
+      })
+      slider.dataset.mobile = 'true'
+    }
+    if(window.innerWidth >= 768) {
+      slider.dataset.mobile = 'false'
 
-window.onload = function() {
-  console.log(window.innerWidth)
-  if(window.innerWidth < 768) {
-    let row = document.querySelector('.row')
-    let divContainer = document.createElement('div')
-    divContainer.className = 'swiper-container'
-    row.prepend(divContainer)
+      if(slider.classList.contains('swiper-container-initialized')) {
+        swiper.destroy()
+      }
+    }
   }
-  let mySwiper = new Swiper('.swiper-container', {
-    // Optional parameters
-    direction: 'horizontal',
-    loop: true,
+  mobileSlider(slider)
+  showAll()
 
-    // If we need pagination
-    pagination: {
-      el: '.swiper-pagination',
-    },
-
+  window.addEventListener('resize', function() {
+    mobileSlider(slider)
   })
-  console.log(mySwiper)
 
-
+  function showAll() {
   let arrow = document.querySelector('.arrow')
   let arrowText =  document.querySelector('.arrow__text')
   let arrowImg = document.querySelector('.arrow__img')
@@ -35,10 +44,8 @@ window.onload = function() {
       arrowImg.src = './img/arrow-up.svg'
     }
 
-
     for(let i = 0; i < cards.length; i++) {
       cards[i].classList.toggle('section__column--hide')
     }
   })
-
 }
