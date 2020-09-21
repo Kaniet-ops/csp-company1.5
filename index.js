@@ -1,8 +1,12 @@
 
-
-
 window.onload = function() {
-
+  console.log(window.innerWidth)
+  if(window.innerWidth < 768) {
+    let row = document.querySelector('.row')
+    let divContainer = document.createElement('div')
+    divContainer.className = 'swiper-container'
+    row.prepend(divContainer)
+  }
   let mySwiper = new Swiper('.swiper-container', {
     // Optional parameters
     direction: 'horizontal',
@@ -12,19 +16,29 @@ window.onload = function() {
     pagination: {
       el: '.swiper-pagination',
     },
+
+  })
+  console.log(mySwiper)
+
+
+  let arrow = document.querySelector('.arrow')
+  let arrowText =  document.querySelector('.arrow__text')
+  let arrowImg = document.querySelector('.arrow__img')
+  let cards = document.querySelectorAll('.section__column--hide')
+
+  arrow.addEventListener('click', function() {
+    if(arrowText.innerHTML === 'Скрыть') {
+      arrowText.innerHTML = 'Показать все'
+      arrowImg.src = './img/arrow-down.svg'
+    } else {
+      arrowText.innerHTML = 'Скрыть'
+      arrowImg.src = './img/arrow-up.svg'
+    }
+
+
+    for(let i = 0; i < cards.length; i++) {
+      cards[i].classList.toggle('section__column--hide')
+    }
   })
 
-  let arrow = document.querySelector('.arrow');
-  let sectionRowHide = document.querySelector('.section__row--hide');
-  let arrowHide = document.querySelector('.arrow--hide');
-  arrow.addEventListener('click', function() {
-    sectionRowHide.classList.toggle('section__row--hide');
-    arrowHide.style.display = 'flex';
-    arrow.style.display = 'none';
-  });
-  arrowHide.addEventListener('click', function() {
-    sectionRowHide.classList.toggle('section__row--hide');
-    arrowHide.style.display = 'none';
-    arrow.style.display = 'flex';
-  });
 }
